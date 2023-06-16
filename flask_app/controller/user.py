@@ -15,7 +15,7 @@ def index():
 #Creating a acount
 @app.route('/create')
 def create():
-    return render_template('index.html')
+    return render_template('greet.html')
 
 
 

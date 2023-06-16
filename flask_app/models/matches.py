@@ -14,6 +14,7 @@ class Match:
         self.age = data['age']
         self.city = data['city']
         self.description = data['description']
+        self.picture = data['picture']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.users = []
@@ -22,8 +23,8 @@ class Match:
     @classmethod
     def save(cls, form_data):
         query = """
-                INSERT INTO matches (first_name,last_name,age,city,description,user_id)
-                VALUES (%(first_name)s,%(last_name)s,%(age)s,%(city)s,%(description)s,%(user_id)s);
+                INSERT INTO matches (first_name,last_name,age,city,description,picture,user_id)
+                VALUES (%(first_name)s,%(last_name)s,%(age)s,%(city)s,%(description)s,%(picture)s,%(user_id)s);
                 """
         return connectToMySQL(cls.DB).query_db(query, form_data)
 
@@ -76,6 +77,7 @@ class Match:
                 "age": row["age"],
                 "city": row["city"],
                 "description": row["description"],
+                "picture": row["picture"],
                 "created_at": row["created_at"],
                 "updated_at": row["updated_at"],
                 "user": user_data,

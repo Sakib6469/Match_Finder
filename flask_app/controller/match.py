@@ -24,8 +24,8 @@ def process():
         'last_name': request.form['last_name'],
         'age': request.form['age'],
         'city': request.form['city'],
-        # 'picture': request.form['picture'],
-        'description': request.form['description']
+        'description': request.form['description'],
+        'picture': request.files['picture']
     }
     Match.save(form_data)
     return redirect('/home/matches')
