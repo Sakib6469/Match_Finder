@@ -17,11 +17,13 @@ def index():
 def create():
     return render_template('greet.html')
 
+@app.route('/register')
+def display_form():
+    return render_template('index.html')
 
 
 
-
-@app.route('/register', methods=['POST'])
+@app.route('/register/user', methods=['POST'])
 def register():
     is_valid = User.validate_user(request.form)
 

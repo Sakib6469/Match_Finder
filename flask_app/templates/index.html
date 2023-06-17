@@ -67,6 +67,7 @@
 		<div>
 			<h3>Already have a acount click here to login</h3>
 			<a href="/login" class="d-inline-flex p-2">Login</a>
+			<a href="/">Home</a>
 		</div>
 	</div>
 	{% with messages = get_flashed_messages() %}
@@ -101,8 +102,12 @@
 			<input type="password" class="form-control" id="confirm_password" name="confirm_password" >
 		</div>
 		<div>
-			<label for="age">Age:</label>
-			<input type="age" class="form-control" id="age" name="age" >
+			<label for="age">Birthday:</label>
+			<input type="date" class="form-control" id="birthday" name="birthday" >
+		</div>
+		<div>
+			<label for="profile_pic">Profile pic</label>
+			<input type="file" name="profile_pic" id="profile_pic">
 		</div>
 		
 
