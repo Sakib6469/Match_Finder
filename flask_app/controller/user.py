@@ -7,48 +7,77 @@ from flask import flash
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
-
+#Nav Bar
 @app.route('/')
 def index():
-    return redirect('/create')
+    return redirect('/greet')
 
-#Creating a acount
-@app.route('/create')
+
+@app.route('/greet')
 def create():
     return render_template('greet.html')
 
+@app.route('/carrer')
+def carrer():
+    return render_template('careers.html')
+
+@app.route('/help')
+def help():
+    return render_template('help.html')
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
+
+
+
+#register
 @app.route('/register')
 def display_form():
-    return render_template('index.html')
-
+    return render_template('register.html')
 
 
 @app.route('/register/user', methods=['POST'])
 def register():
+    # Check if the 'profile_pic' file exists in the request
+    if 'profile_pic' not in request.files:
+        flash("Profile picture is required.")
+        return redirect('/register')
+
+    profile_pic = request.files['profile_pic']
+
     is_valid = User.validate_user(request.form)
 
     if is_valid:
         if request.form['password'] == '':
             flash("Password is required.")
-            return redirect('/create')
+            return redirect('/register')
 
         pw_hash = bcrypt.generate_password_hash(request.form['password'])
         data = {
             "first_name": request.form['first_name'],
             "last_name": request.form['last_name'],
+            "location": request.form['location'],
             "email": request.form['email'],
             "password": pw_hash,
-            "age": request.form['age'],
+            "birthday": request.form['birthday'],
+            "profile_pic": request.files['profile_pic']
+
         }
+        
         user_id = User.save(data)
         matches = Match.get_all()
         session['user_id'] = user_id
         print(user_id)
-        return redirect('/home/matches')
+        return redirect('/home')
     else:
-        return redirect('/')
+        return redirect('/register')
 
-#Loging in
+
+
+
+
+#Login
 @app.route('/login')
 def login():
     return render_template('login.html')

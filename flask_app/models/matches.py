@@ -29,25 +29,25 @@ class Match:
         return connectToMySQL(cls.DB).query_db(query, form_data)
 
 
-    @staticmethod
-    def validate(form_data):
-        is_valid = True
-        if len(form_data['first_name']) < 2:
-            flash('First name must be at least 2 characters.')
-            is_valid = False
-        if len(form_data['last_name']) < 2:
-            flash('Last name must be at least 2 characters.')
-            is_valid = False
-        if not form_data['age'].isdigit() or int(form_data['age']) < 18:
-            flash('Age must be a number greater than or equal to 18.')
-            is_valid = False
-        if len(form_data['city']) < 2:
-            flash('City name must be at least 2 characters.')
-            is_valid = False
-        if len(form_data['description']) < 10:
-            flash('Description must be at least 10 characters.')
-            is_valid = False
-        return is_valid
+    # @staticmethod
+    # def validate_user(form_data):
+    #     is_valid = True
+    #     if len(form_data['first_name']) < 2:
+    #         flash('First name must be at least 2 characters.')
+    #         is_valid = False
+    #     if len(form_data['last_name']) < 2:
+    #         flash('Last name must be at least 2 characters.')
+    #         is_valid = False
+    #     if not form_data['age'].isdigit() or int(form_data['age']) < 18:
+    #         flash('Age must be a number greater than or equal to 18.')
+    #         is_valid = False
+    #     if len(form_data['city']) < 2:
+    #         flash('City name must be at least 2 characters.')
+    #         is_valid = False
+    #     if len(form_data['description']) < 10:
+    #         flash('Description must be at least 10 characters.')
+    #         is_valid = False
+    #     return is_valid
 
     @classmethod
     def get_all(cls):
