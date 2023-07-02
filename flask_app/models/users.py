@@ -2,14 +2,12 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 from flask_app.models import matches
 import re
-from datetime import date,datetime
-
+from datetime import date, datetime
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 
 class User:
     DB = "match_finder1"
-
 
     def __init__(self, data):
         self.id = data['id']
@@ -24,18 +22,15 @@ class User:
         self.updated_at = data['updated_at']
 
 
-
-
-
-
-
     @staticmethod
     def validate_user(user_data):
-        birthday = datetime.strptime(user_data['birthday'], '%Y-%m-%d').date()
-        current_date = date.today()
-        age = current_date.year - birthday.year - ((current_date.month, current_date.day) < (birthday.month, birthday.day))
+        required_keys = ['first_name', 'last_name', 'location', 'email', 'password', 'confirm_password', 'birthday']
 
-        requierd_keys = ['first_name','last_name','location','email','password','rofile_pic']
+        for key in required_keys:
+            if not user_data[key].strip():
+                flash(f"{key.replace('_', ' ').title()} is required.")
+                return False
+
         if len(user_data['first_name']) < 2:
             flash("First name must be at least 2 characters.")
             return False
@@ -45,15 +40,15 @@ class User:
             return False
 
         if len(user_data['location']) < 2:
-            flash("Location is requierd")
+            flash("Location is required.")
             return False
-        
+
         if not re.match(EMAIL_REGEX, user_data['email']):
             flash("Invalid email address.")
             return False
 
         if len(user_data['password']) < 6:
-            flash("Password must be at least 6 characters.", )
+            flash("Password must be at least 6 characters.")
             return False
 
         if user_data['password'] != user_data['confirm_password']:
@@ -67,14 +62,21 @@ class User:
         if not re.search(r'\d', user_data['password']):  # Check for at least one digit
             flash("Password must contain at least one digit.")
             return False
-        
+
+        try:
+            birthday = datetime.strptime(user_data['birthday'], '%Y-%m-%d').date()
+        except ValueError:
+            flash("Invalid birthday format. Please use YYYY-MM-DD.")
+            return False
+
+        current_date = date.today()
+        age = current_date.year - birthday.year - ((current_date.month, current_date.day) < (birthday.month, birthday.day))
+
         if age < 18:
             flash("You must be 18 or older to join.")
             return False
-        
-        
-        return True
 
+        return True
 
 
 
@@ -84,8 +86,6 @@ class User:
     def save(cls, data):
         query = "INSERT INTO users (first_name,last_name,location,email,password,birthday,profile_pic ) VALUES ( %(first_name)s , %(last_name)s,%(location)s,%(email)s,%(password)s,%(birthday)s,%(profile_pic)s );"
         return connectToMySQL(cls.DB).query_db(query, data)
-
-
 
 
     @classmethod
@@ -100,9 +100,9 @@ class User:
         return cls(result[0])
 
     @classmethod
-    def get_user_by_email(cls,data):
+    def get_user_by_email(cls, data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL(cls.DB).query_db(query,data)
+        results = connectToMySQL(cls.DB).query_db(query, data)
         if len(results) < 1:
             return False
         return cls(results[0])
@@ -117,13 +117,13 @@ class User:
         return users
 
     @classmethod
-    def get_by_email(cls,data):
+    def get_by_email(cls, data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL(cls.DB).query_db(query,data)
+        results = connectToMySQL(cls.DB).query_db(query, data)
         if len(results) < 1:
             return False
         return cls(results[0])
-    
+
     @classmethod
     def get_one(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
@@ -137,13 +137,11 @@ class User:
         query = "DELETE FROM users WHERE id = %(id)s;"
         return connectToMySQL(cls.DB).query_db(query, data)
 
-    
-
 
     @classmethod
-    def get_by_id(cls,data):
+    def get_by_id(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
-        results = connectToMySQL(cls.DB).query_db(query,data)
+        results = connectToMySQL(cls.DB).query_db(query, data)
         if len(results) < 1:
             return False
         return cls(results[0])

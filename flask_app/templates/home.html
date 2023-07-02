@@ -27,6 +27,9 @@
                     <li class="nav-iteam">
                         <a class="nav-link" href="/create/profile">Create profile</a>
                     </li>
+                    <li class="nav-iteam">
+                        <a class="nav-link" href="#">Acount</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -47,17 +50,15 @@
                     <a href="/view/matches/{{match.id}}" class="btn btn-primary">View Profile</a>
                     <a href="/destroy/matches/{{match.id}}" class="btn btn-primary">Delete</a>
                     <a href="/update/matches/{{match.id}}" class="btn btn-primary">Update</a>
-                    <!-- ... previous code ... -->
-                    
-                    <!-- ... previous code ... -->
+
                     
                     {% for match in matches %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <!-- ... card content ... -->
+                            
                                 {% if match.picture %}
-                                <p>Look -> {{ match.picture}}</p>
+                                <p>{{ match.picture}}</p>
                                 
                                 <img src="{{ url_for('static', filename='uploads/' + match.picture.decode('utf-8')) }}"
                                 alt="Profile Photo" class="card-img-top">
@@ -69,11 +70,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    
-                    <!-- ... remaining code ... -->
-
-
-                    <!-- ... remaining code ... -->
+        
 
                 </div>
             </div>
