@@ -106,6 +106,21 @@ def home():
     user = User.get_all()
     return render_template('home.html', user=user)
 
+
+
+@app.route('/view/user/info/<int:id>')
+def view_user(id):
+    if 'user_id' not in session:
+        return redirect('/')
+    user = User.get_by_id({'id': id})
+    if not user:
+        flash("User not found.")
+        return redirect('/home/matches')
+    return render_template('show.html', user=user)
+
+
+
+
 @app.route('/destroy/users/<int:id>')
 def delete_user(id):
     User.destroy({'id': id})

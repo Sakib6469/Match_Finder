@@ -92,7 +92,7 @@ class User:
     def get_user_by_id(cls, users_id):
         query = "SELECT * FROM users WHERE id = %(id)s;"
         data = {
-            "id": users_id
+            "id": id
         }
         result = connectToMySQL(cls.DB).query_db(query, data)
         if len(result) < 1:

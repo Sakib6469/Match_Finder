@@ -36,6 +36,7 @@ def process():
 def matches():
     user_id = session.get('users_id')
     matches = Match.get_all()
+    user = User.get_by_id('users_id')
     return render_template('home.html', user=user, matches=matches)
 
 
