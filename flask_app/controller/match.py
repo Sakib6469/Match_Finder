@@ -34,10 +34,9 @@ def process():
 
 @app.route('/home/matches')
 def matches():
-    user_id = session.get('users_id')
+    user_id = session.get('user_id')
     matches = Match.get_all()
-    user = User.get_by_id('users_id')
-    return render_template('home.html', user=user, matches=matches)
+    return render_template('home.html', user=User.get_all() , matches=matches)
 
 
 
@@ -49,48 +48,3 @@ def matches():
 
 
 
-
-#Deleate
-@app.route('/destroy/matches/<int:id>')
-def delete(id):
-    Match.destroy({'id': id})
-    return redirect('/home/matches')
-
-#view matches
-@app.route('/view/matches/<int:id>')
-def view_matches(id):
-    if 'user_id' not in session:
-        return redirect('/')
-    return render_template('show.html',match=Match.get_by_id({'id': id}),user=user)
-
-
-
-
-
-@app.route('/update/matches/<int:id>')
-def update(id):
-    matches = Match.get_one({'id':id})
-    return render_template('update.html',matches=matches)
-
-
-
-
-@app.route('/matches/edit/<int:id>', methods=['GET', 'POST'])
-def process_edit_matches(id):
-    if request.method == 'POST':
-        # Process the form submission
-        if 'user_id' not in session:
-            return redirect('/')
-    
-        form_data = request.form.to_dict()
-    
-        if not Match.validate(form_data):
-            return redirect(f'/matches/edit/{id}')
-    
-        form_data['id'] = id
-        Match.update(form_data)
-        return redirect('/home/matches')
-    else:
-        # Handle GET request (rendering the form)
-        matches = Match.get_one({'id': id})
-        return render_template('update.html', matches=matches)

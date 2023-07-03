@@ -86,6 +86,9 @@ class Match:
             matches_list.append(matches)
         return matches_list
 
+
+
+
     @classmethod
     def destroy(cls, data):
         query = "DELETE FROM matches WHERE id = %(id)s;"

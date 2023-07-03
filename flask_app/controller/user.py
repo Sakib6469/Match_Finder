@@ -109,14 +109,14 @@ def home():
 
 
 @app.route('/view/user/info/<int:id>')
-def view_user(id):
+def view_user_info(id):
     if 'user_id' not in session:
         return redirect('/')
     user = User.get_by_id({'id': id})
     if not user:
         flash("User not found.")
         return redirect('/home/matches')
-    return render_template('show.html', user=user)
+    return render_template('show.html',user=User.get_user_by_id({'id': id}))
 
 
 
