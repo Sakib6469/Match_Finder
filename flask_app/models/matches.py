@@ -49,42 +49,42 @@ class Match:
     #         is_valid = False
     #     return is_valid
 
-    @classmethod
-    def get_all(cls):
-        query = """
-        SELECT * FROM matches LEFT JOIN users ON matches.user_id = users.id;
-    """
-        result = connectToMySQL(cls.DB).query_db(query)
-        if not result:
-            return None
-        matches_list = []
-        for row in result:
-            user_data = {
-                "id": row["users.id"],
-                "first_name": row["first_name"],
-                "last_name": row["last_name"],
-                "email": row["email"],
-                "password": "",
-                "age": row["age"],
-                "city": row["city"],
-                "created_at": row["users.created_at"],
-                "updated_at": row["users.updated_at"],
-            }
-            matches_data = {
-                "id": row["id"],
-                "first_name": row["first_name"],
-                "last_name": row["last_name"],
-                "age": row["age"],
-                "city": row["city"],
-                "description": row["description"],
-                "picture": row["picture"],
-                "created_at": row["created_at"],
-                "updated_at": row["updated_at"],
-                "user": user_data,
-            }
-            matches = cls(matches_data)
-            matches_list.append(matches)
-        return matches_list
+    # @classmethod
+    # def get_all(cls):
+    #     query = """
+    #     SELECT * FROM matches LEFT JOIN users ON matches.user_id = users.id;
+    # """
+    #     result = connectToMySQL(cls.DB).query_db(query)
+    #     if not result:
+    #         return None
+    #     matches_list = []
+    #     for row in result:
+    #         user_data = {
+    #             "id": row["users.id"],
+    #             "first_name": row["first_name"],
+    #             "last_name": row["last_name"],
+    #             "email": row["email"],
+    #             "password": "",
+    #             "age": row["age"],
+    #             "city": row["city"],
+    #             "created_at": row["users.created_at"],
+    #             "updated_at": row["users.updated_at"],
+    #         }
+    #         matches_data = {
+    #             "id": row["id"],
+    #             "first_name": row["first_name"],
+    #             "last_name": row["last_name"],
+    #             "age": row["age"],
+    #             "city": row["city"],
+    #             "description": row["description"],
+    #             "picture": row["picture"],
+    #             "created_at": row["created_at"],
+    #             "updated_at": row["updated_at"],
+    #             "user": user_data,
+    #         }
+    #         matches = cls(matches_data)
+    #         matches_list.append(matches)
+    #     return matches_list
 
 
 

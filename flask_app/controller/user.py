@@ -7,7 +7,7 @@ from flask import flash
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
-#Nav Bar
+#Nav Bar Greeting Page
 @app.route('/')
 def index():
     return redirect('/greet')
@@ -102,23 +102,16 @@ def user_login():
 
 @app.route('/home')
 def home():
-    user_id = session.get('user_id')
-    user = User.get_all()
-    return render_template('home.html', user=user)
+    id = session.get('id')
+    return render_template('home.html',user=User.get_by_id({'id': id}))
 
 
 
-@app.route('/view/user/info/<int:id>')
-def view_user_info(id):
-    if 'user_id' not in session:
-        return redirect('/')
+@app.route('/view/user/info/')
+def view_user_info():
+    id = session.get('user_id') 
     user = User.get_by_id({'id': id})
-    if not user:
-        flash("User not found.")
-        return redirect('/home/matches')
-    return render_template('show.html',user=User.get_user_by_id({'id': id}))
-
-
+    return render_template('show.html', user=user)
 
 
 @app.route('/destroy/users/<int:id>')
