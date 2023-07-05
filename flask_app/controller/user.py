@@ -66,7 +66,7 @@ def register():
         }
         
         user_id = User.save(data)
-        matches = Match.get_all()
+        # matches = Match.get_all()
         session['user_id'] = user_id
         print(user_id)
         return redirect('/home')
@@ -114,7 +114,12 @@ def view_user_info():
     return render_template('show.html', user=user)
 
 
+
 @app.route('/destroy/users/<int:id>')
 def delete_user(id):
     User.destroy({'id': id})
-    return redirect('/home/matches')
+    return redirect('/')
+
+@app.route('/edit/user/info')
+def edit_user_info():
+    return render_template('Edit_User.html')
