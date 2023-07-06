@@ -120,6 +120,38 @@ def delete_user(id):
     User.destroy({'id': id})
     return redirect('/')
 
-@app.route('/edit/user/info')
+# @app.route('/edit/user/info',methods=['GET','POST'])
+# def edit_user_info():
+#         id = session.get('user_id')
+#         data = {
+#             "id": id,
+#             "first_name": request.form.get('first_name'),
+#             "last_name": request.form.get('last_name'),
+#             "location": request.form.get('location'),
+#             "email": request.form.get('email'),
+#             "profile_pic": request.files.get('profile_pic')
+#         }
+#         user = User.update(data)
+#         flash("User information updated successfully.")
+#         return render_template('Edit_User.html',user=user)
+
+
+@app.route('/edit/user/info', methods=['GET', 'POST'])
 def edit_user_info():
-    return render_template('Edit_User.html')
+    id = session.get('user_id')
+    if request.method == 'POST':
+        data = {
+            "id": id,
+            "first_name": request.form.get('first_name'),
+            "last_name": request.form.get('last_name'),
+            "location": request.form.get('location'),
+            "email": request.form.get('email'),
+            "profile_pic": request.files.get('profile_pic')
+        }
+        user = User.update(data)
+        flash("User information updated successfully.")
+        return redirect('/view/user/info/')
+    else:
+        user = User.get_by_id({'id': id})
+        return render_template('Edit_User.html', user=user)
+

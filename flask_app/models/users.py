@@ -145,3 +145,9 @@ class User:
         if len(results) < 1:
             return False
         return cls(results[0])
+
+
+    @classmethod
+    def update(cls, data):
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, location = %(location)s, email = %(email)s,profile_pic = %(profile_pic)s WHERE id = %(id)s;"
+        return connectToMySQL(cls.DB).query_db(query, data)
