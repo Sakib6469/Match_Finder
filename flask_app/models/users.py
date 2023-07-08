@@ -25,11 +25,17 @@ class User:
     @staticmethod
     def validate_user(user_data):
         required_keys = ['first_name', 'last_name', 'location', 'email', 'password', 'confirm_password', 'birthday']
+        empty_fields = []
 
         for key in required_keys:
             if not user_data[key].strip():
-                flash(f"{key.replace('_', ' ').title()} is required.")
-                return False
+                empty_fields.append(key)
+
+        if empty_fields:
+            for field in empty_fields:
+                flash(f"{field.replace('_', ' ').title()} is required.")
+            return False
+
 
         if len(user_data['first_name']) < 2:
             flash("First name must be at least 2 characters.")
@@ -77,6 +83,50 @@ class User:
             return False
 
         return True
+
+
+
+#edit User info 
+    @staticmethod
+    def edit_user(user_data):
+        required_keys = ['first_name', 'last_name', 'location', 'email']
+        empty_fields = []
+
+        for key in required_keys:
+            if not user_data[key].strip():
+                empty_fields.append(key)
+
+        if empty_fields:
+            for field in empty_fields:
+                flash(f"{field.replace('_', ' ').title()} is required.")
+            return False
+
+
+        if len(user_data['first_name']) < 2:
+            flash("First name must be at least 2 characters.")
+            return False
+
+        if len(user_data['last_name']) < 2:
+            flash("Last name must be at least 2 characters.")
+            return False
+
+        if len(user_data['location']) < 2:
+            flash("Location is required.")
+            return False
+
+        if not re.match(EMAIL_REGEX, user_data['email']):
+            flash("Invalid email address.")
+            return False
+
+        return True
+
+
+
+
+
+
+
+
 
 
 

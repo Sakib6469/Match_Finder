@@ -21,7 +21,7 @@ def matches():
 
 
 
-#Deleate
+#Destroy
 @app.route('/destroy/matches/<int:id>')
 def delete(id):
     Match.destroy({'id': id})
