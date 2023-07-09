@@ -144,3 +144,14 @@ def edit_user_info():
     else:
         user = User.get_by_id({'id': id})
         return render_template('Edit_User.html', user=user)
+
+
+
+
+#messages
+
+
+@app.route('/message/users')
+def message():
+    users = User.get_all()
+    return render_template('messages.html',users=users)

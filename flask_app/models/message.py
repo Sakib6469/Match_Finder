@@ -10,5 +10,7 @@ class Message:
     def __init__(self,data):
         self.id = data['id']
         self.text = data['text']
+        self.user_id_sender = data['user_id_sender']
+        self.user_id_recipient = data['user_id_recipient']
         self.created_at = data['created_at']
-        
+
