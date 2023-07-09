@@ -153,5 +153,15 @@ def edit_user_info():
 
 @app.route('/message/users')
 def message():
-    users = User.get_all()
-    return render_template('messages.html',users=users)
+    loged_in_user = session['user_id']
+    users = User.get_all_except(loged_in_user)
+    return render_template('messages.html', users=users)
+
+
+
+
+
+
+@app.route('/message/users/text/<int:id>')
+def text_users():
+    return render_template('text_user.html')

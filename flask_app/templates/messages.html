@@ -11,9 +11,9 @@
     <a href="/home">Home</a>
 {% for user in users %}
     <div>
-        <h2>{{ user.username }}</h2>
-        <img src="{{ user.profile_picture }}" alt="Profile Picture">
-        <a href="/message/{{ user.id }}">Message</a>
+        <h2>{{ user.first_name }}</h2>
+        <img  src="{{ user.profile_picture }}" alt="Profile Picture">
+        <a href="/message/users/text{{ user.id }}">Message</a>
     </div>
 {% endfor %}
 </body>

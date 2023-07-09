@@ -201,3 +201,18 @@ class User:
     def update(cls, data):
         query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, location = %(location)s, email = %(email)s,profile_pic = %(profile_pic)s WHERE id = %(id)s;"
         return connectToMySQL(cls.DB).query_db(query, data)
+
+    @classmethod
+    def get_all_except(cls, user_id):
+        query = "SELECT * FROM users WHERE id != %(user_id)s"
+        data = {
+        'user_id': user_id
+    }
+        results = connectToMySQL(cls.DB).query_db(query, data)
+        users = []
+        for result in results:
+            users.append(cls(result))
+        return users
+
+
+
