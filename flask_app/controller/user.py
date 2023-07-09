@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect,session
 from flask_app.models.users import User
 from flask_app.models.matches import Match
+from flask_app.models.message import Message
 from flask_app.controller import match
 from flask_app import app
 from flask import flash
@@ -162,6 +163,7 @@ def message():
 
 
 
-@app.route('/message/users/text/<int:id>')
+@app.route('/message/users/text/',methods=['GET','POST'])
 def text_users():
-    return render_template('text_user.html')
+    message = Message.get_one(data)
+    return render_template('text_user.html',message=message)
