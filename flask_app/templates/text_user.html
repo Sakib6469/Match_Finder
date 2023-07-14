@@ -13,9 +13,15 @@
         
     </div>
     <div>
-        <label for="Message">Message</label>
-        <input type="text">
-        <button type="submit">Send!</button>
+        <form action="/message/users/text/send">
+            <div class="text">
+                {% for message in Messages  %}
+                {% endfor %}
+            </div>
+            <label for="Message">Message</label>
+            <input type="text">
+            <button type="submit">Send!</button>
+        </form>
     </div>
 </body>
 </html>
