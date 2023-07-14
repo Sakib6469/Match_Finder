@@ -161,9 +161,7 @@ def message():
 
 
 
-
-
 @app.route('/message/users/text/',methods=['GET','POST'])
 def text_users():
-    message = Message.get_one(data)
+    message = Message.get_users_messages('data')
     return render_template('text_user.html',message=message)
