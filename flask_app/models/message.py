@@ -6,12 +6,12 @@ import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class Message:
-    DB = "solo_project"
+    DB = "match_finder1"
     def __init__(self,data):
         self.id = data['id']
         self.text = data['text']
         self.user_id_sender = data['user_id_sender']
-        self.user_id_recipient = data['user_id_sender']
+        self.user_id_recipient = data['user_id_recipient']
         self.created_at = data['created_at']
 
 
@@ -53,5 +53,5 @@ class Message:
     # Save
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO message (text,) VALUES ( %(text)s);"
+        query = "INSERT INTO message (text) VALUES (%(text)s);"
         return connectToMySQL(cls.DB).query_db(query, data)

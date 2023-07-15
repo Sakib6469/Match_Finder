@@ -85,7 +85,6 @@ class User:
         return True
 
 
-
 #edit User info 
     @staticmethod
     def edit_user(user_data):
@@ -119,13 +118,6 @@ class User:
             return False
 
         return True
-
-
-
-
-
-
-
 
 
 

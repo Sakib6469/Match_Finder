@@ -167,7 +167,10 @@ def text_users():
     return render_template('text_user.html',message=message)
 
 
-@app.route('/message/users/text/send',methods=['POST'])
+@app.route('/message/users/text/send',methods=['GET','POST'])
 def send_message():
-
+    data = {
+        "text": request.form.get('text')
+    }
+    message = Message.save(data)
     return redirect('/message/users/text/')
