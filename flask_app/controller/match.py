@@ -17,13 +17,8 @@ def matches():
 
 
 
-
-
-
-
 #Destroy
 @app.route('/destroy/matches/<int:id>')
 def delete(id):
     Match.destroy({'id': id})
     return redirect('/home/matches')
-

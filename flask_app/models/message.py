@@ -9,9 +9,9 @@ class Message:
     DB = "match_finder1"
     def __init__(self,data):
         self.id = data['id']
+        self.user_id_sender = data['user_id_sender'] #foreign key
+        self.user_id_recipient = data['user_id_recipient'] #foreign key
         self.text = data['text']
-        self.user_id_sender = data['user_id_sender']
-        self.user_id_recipient = data['user_id_recipient']
         self.created_at = data['created_at']
 
 
@@ -50,8 +50,7 @@ class Message:
             return False
         return cls(result[0])
 
-    # Save
     @classmethod
-    def save(cls, data):
-        query = "INSERT INTO message (text) VALUES (%(text)s);"
+    def save_message(cls, data):
+        query = "INSERT INTO message (user_id_sender,user_id_recipient,text) VALUES (%(user_id_sender)s,%(user_id_recipient)s,%(text)s);"
         return connectToMySQL(cls.DB).query_db(query, data)

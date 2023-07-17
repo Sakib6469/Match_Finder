@@ -7,6 +7,11 @@ from flask_app import app
 from flask import flash
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
+import os
+UPLOAD_FOLDER = 'flask_app/static/uploaded_images'
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+
+
 
 #Nav Bar Greeting Page
 @app.route('/')
@@ -161,16 +166,20 @@ def message():
 
 
 
-@app.route('/message/users/text/',methods=['GET','POST'])
-def text_users():
+@app.route('/message/users/text/<int:recipient_id>',methods=['GET','POST'])
+def text_users(recipient_id):
     message = Message.get_users_messages('data')
-    return render_template('text_user.html',message=message)
+    user_id_recipient = recipient_id
+    return render_template('text_user.html',message=message,user_id_recipient=user_id_recipient)
 
-
-@app.route('/message/users/text/send',methods=['GET','POST'])
+@app.route('/message/users/text/send', methods=['POST'])
 def send_message():
     data = {
-        "text": request.form.get('text')
+        "text": request.form['text'],
+        "user_id_sender": request.form['user_id_sender'],
+        "user_id_recipient": request.form['user_id_recipient']
     }
-    message = Message.save(data)
-    return redirect('/message/users/text/')
+    message = Message.save_message(data)
+    if message:
+        flash("Message Sent!!!")
+    return redirect(f'/message/users/text/{{')
