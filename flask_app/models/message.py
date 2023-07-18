@@ -3,6 +3,7 @@ from flask import flash
 from flask_app.models import users
 from flask_app.models import matches
 import re
+from flask import session
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class Message:
@@ -54,3 +55,23 @@ class Message:
     def save_message(cls, data):
         query = "INSERT INTO message (user_id_sender,user_id_recipient,text) VALUES (%(user_id_sender)s,%(user_id_recipient)s,%(text)s);"
         return connectToMySQL(cls.DB).query_db(query, data)
+
+
+    @classmethod
+    def get_users_messages(cls, user_id):
+        data = {
+            'user_id_recipient': user_id,
+            'user_id_sender': session['user_id']
+        }
+        query = """
+        SELECT * FROM message 
+        WHERE (user_id_sender = %(user_id_sender)s AND user_id_recipient = %(user_id_recipient)s)
+            OR (user_id_sender = %(user_id_recipient)s AND user_id_recipient = %(user_id_sender)s)
+        ORDER BY created_at;
+        """
+        results = connectToMySQL(cls.DB).query_db(query, data)
+        messages = []
+        if results:
+            for result in results:
+                messages.append(cls(result))
+        return messages

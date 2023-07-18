@@ -7,6 +7,7 @@ from flask_app import app
 from flask import flash
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
+from flask import session
 import os
 UPLOAD_FOLDER = 'flask_app/static/uploaded_images'
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
@@ -166,11 +167,12 @@ def message():
 
 
 
-@app.route('/message/users/text/<int:recipient_id>',methods=['GET','POST'])
+@app.route('/message/users/text/<int:recipient_id>', methods=['GET', 'POST'])
 def text_users(recipient_id):
-    message = Message.get_users_messages('data')
+    messages = Message.get_users_messages(recipient_id)
     user_id_recipient = recipient_id
-    return render_template('text_user.html',message=message,user_id_recipient=user_id_recipient)
+    return render_template('text_user.html', messages=messages, user_id_recipient=user_id_recipient)
+
 
 @app.route('/message/users/text/send', methods=['POST'])
 def send_message():
@@ -182,4 +184,4 @@ def send_message():
     message = Message.save_message(data)
     if message:
         flash("Message Sent!!!")
-    return redirect(f'/message/users/text/{{')
+    return redirect(f'/message/users/text/{{int:id}}')
