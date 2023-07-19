@@ -1,8 +1,9 @@
 from flask import render_template, request, redirect,session
 from flask_app.models.users import User
 from flask_app.models.matches import Match
-from flask_app.models.message import Message
+from flask_app.models.messages import Message
 from flask_app.controller import match
+from flask_app.controller import message
 from flask_app import app
 from flask import flash
 from flask_bcrypt import Bcrypt
@@ -43,7 +44,6 @@ def info():
 def display_form():
     return render_template('register.html')
 
-
 @app.route('/register/user', methods=['POST'])
 def register():
     if 'profile_pic' not in request.files:
@@ -59,6 +59,12 @@ def register():
             flash("Password is required.")
             return redirect('/register')
 
+        # Check if the email is already registered
+        existing_user = User.get_user_by_email({'email': request.form['email']})
+        if existing_user:
+            flash("Email already exists. Please choose a different email.")
+            return redirect('/register')
+
         pw_hash = bcrypt.generate_password_hash(request.form['password'])
         data = {
             "first_name": request.form['first_name'],
@@ -68,17 +74,13 @@ def register():
             "password": pw_hash,
             "birthday": request.form['birthday'],
             "profile_pic": request.files['profile_pic']
-
         }
         
         user_id = User.save(data)
-        # matches = Match.get_all()
         session['user_id'] = user_id
-        print(user_id)
         return redirect('/home')
     else:
         return redirect('/register')
-
 
 
 
@@ -93,7 +95,6 @@ def login():
 @app.route('/login/user',methods=['POST'])
 def user_login():
     user = User.get_by_email(request.form)
-
     if not user:
         flash("Invalid Email","login")
         return redirect('/login')
@@ -108,6 +109,8 @@ def user_login():
 
 @app.route('/home')
 def home():
+    if ('user_id') not in session:
+        redirect('/')
     id = session.get('id')
     return render_template('home.html',user=User.get_by_id({'id': id}))
 
@@ -155,33 +158,3 @@ def edit_user_info():
 
 
 
-#messages
-
-
-@app.route('/message/users')
-def message():
-    loged_in_user = session['user_id']
-    users = User.get_all_except(loged_in_user)
-    return render_template('messages.html', users=users)
-
-
-
-
-@app.route('/message/users/text/<int:recipient_id>', methods=['GET', 'POST'])
-def text_users(recipient_id):
-    messages = Message.get_users_messages(recipient_id)
-    user_id_recipient = recipient_id
-    return render_template('text_user.html', messages=messages, user_id_recipient=user_id_recipient)
-
-
-@app.route('/message/users/text/send', methods=['POST'])
-def send_message():
-    data = {
-        "text": request.form['text'],
-        "user_id_sender": request.form['user_id_sender'],
-        "user_id_recipient": request.form['user_id_recipient']
-    }
-    message = Message.save_message(data)
-    if message:
-        flash("Message Sent!!!")
-    return redirect(f'/message/users/text/{{int:id}}')

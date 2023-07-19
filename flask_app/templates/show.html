@@ -14,7 +14,7 @@
 		<h2>Last Name: {{user.last_name}}</h2>
 		<h2>Location: {{user.location}}</h2>
 		<h2>Email: {{user.email}}</h2>
-		<h2>Profile Picture: <img src="{{ user.profile_pic }}" alt="Profile Picture"></h2>
+		<h2>Profile Picture: <img src="{{ url_for('static', filename=user.profile_pic) }}" alt="Profile Picture"></h2>
 		<a href="/destroy/users/{{ user.id }}">Delete Account</a>
 		<a href="/edit/user/info">Edit Account</a>
 
