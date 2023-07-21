@@ -1,5 +1,5 @@
 from flask_app import app
-from flask_app.controller import user,match
+from flask_app.controller import user,match,message
 
 
 

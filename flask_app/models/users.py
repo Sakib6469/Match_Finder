@@ -14,6 +14,8 @@ class User:
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.location = data['location']
+        # self.latitude = data['latitude']  
+        # self.longitude = data['longitude']
         self.email = data['email']
         self.password = data['password']
         self.birthday = data['birthday']

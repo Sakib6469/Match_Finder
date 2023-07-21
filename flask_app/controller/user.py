@@ -10,8 +10,14 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask import session
 import os
+import googlemaps
+
+API_KEY = 'AIzaSyAD3X-hrcyk92c6pTIsp6iQE-camaL-mWw'
+map_client = googlemaps.Client(API_KEY)
+# map_client.geocode()
 UPLOAD_FOLDER = 'flask_app/static/uploaded_images'
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+
 
 
 
