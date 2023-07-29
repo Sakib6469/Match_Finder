@@ -115,15 +115,18 @@ def user_login():
 
 #Home page
 
+
 @app.route('/home')
 def home():
-    if ('user_id') not in session:
-        redirect('/')
+    if 'user_id' not in session:
+        return redirect('/login')
     id = session.get('id')
-    return render_template('home.html',user=User.get_by_id({'id': id}))
+    users = User.get_all_except('user_id')
+    return render_template('home.html', users=users)
 
 
 
+#Users CRUD
 @app.route('/view/user/info/')
 def view_user_info():
     id = session.get('user_id') 

@@ -15,3 +15,16 @@ const options = {
     types: ["establishment"],
 };
 const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+let map;
+
+async function initMap() {
+    const { Map } = await google.maps.importLibrary("maps");
+
+    map = new Map(document.getElementById("map"), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8,
+    });
+}
+
+initMap();

@@ -4,6 +4,7 @@ from flask_app.models.matches import Match
 from flask_app.models.messages import Message
 from flask_app.controller import match
 from flask_app.controller import user
+from flask_app.controller import message
 from flask_app import app
 from flask import flash
 from flask_bcrypt import Bcrypt
