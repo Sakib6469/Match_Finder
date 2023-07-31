@@ -12,7 +12,7 @@ from flask import session
 import os
 import googlemaps
 
-API_KEY = 'AIzaSyAD3X-hrcyk92c6pTIsp6iQE-camaL-mWw'
+API_KEY = 'AIzaSyCRNVWxNddzYlo0WBybnzau6Kd5L920Iw0'
 map_client = googlemaps.Client(API_KEY)
 
 # map_client.geocode()
